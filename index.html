@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Codemaster-nes-homebrew by Sanchezman</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/Sanchezman/Codemaster-NES-homebrew">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/Sanchezman/Codemaster-NES-homebrew/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/Sanchezman/Codemaster-NES-homebrew/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Codemaster-nes-homebrew</h1>
+          <p>A homebrew game for the Nintendo Entertainment System based off the board game &#39;Mastermind&#39;</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/Sanchezman">Sanchezman</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a name="codemaster-nes-homebrew" class="anchor" href="#codemaster-nes-homebrew"><span class="octicon octicon-link"></span></a>Codemaster-NES-homebrew</h1>
+
+<p>Codemaster is a homebrew game written for the Nintendo Entertainment System in 6502 assembly.</p>
+
+<h2>
+<a name="building" class="anchor" href="#building"><span class="octicon octicon-link"></span></a>Building</h2>
+
+<p>To build the game, use Asm6 (Available from <a href="http://www.romhacking.net/utilities/674/">http://www.romhacking.net/utilities/674/</a>).  Navigate to /Game/ and execute the command:</p>
+
+<pre><code>ASM6 CodeMaster_Main.asm ROM/CodeMaster.nes
+</code></pre>
+
+<p>The resultant .nes file can be found in the Game/ROM/ folder and run with any NES emulator</p>
+
+<h2>
+<a name="playing-the-game" class="anchor" href="#playing-the-game"><span class="octicon octicon-link"></span></a>Playing the Game</h2>
+
+<p>The goal of the game is to guess a secret 4 symbol code consisting of any combination of 8 different symbols.  After selecting a code, the game will then indicate to the user how close the guess is to the actual code.  Four lights to the right of the guess will light up and indicate the status of the guess.  The color of a given light gives a clue as to what part of the guess is incorrect.  The meaning of the lights are as follows:</p>
+
+<ul>
+<li>A red light means that somewhere in the guess, there exists a symbol that is not part of the correct code.</li>
+<li>A yellow light means that somewhere in the guess, there exists a symbol that is part of the correct code, but is in the wrong position.</li>
+<li>A green light means that somewhere in the guess, there exists a symbol that is part of the correct code and it also in the correct position.</li>
+</ul><p>Note that the order of the lights says nothing about the symbols they refer to.  Just because the first light is green does not necessarily mean that the first symbol is correct.</p>
+
+<p>The user has up to 10 chances to guess the correct code.  If the player has not succeeded in this time, the game will be over and the user will be presented with the correct code</p>
+
+<h2>
+<a name="controls" class="anchor" href="#controls"><span class="octicon octicon-link"></span></a>Controls</h2>
+
+<p>On the main game screen, pressing select will switch between 1 Player and 2 Player mode, and pressing start will choose the selected mode.  </p>
+
+<p>If 1 Player mode is selected from the main screen, the player can choose the difficulty of the computer-generated code using the same controls as from the main screen.  The difference between normal and hard difficulty is that on normal difficulty, no symbol can appear in the correct code more than once.  In hard mode, a symbol may appear in the correct code any number of times.</p>
+
+<p>If 2 Player mode is selected, the game will give player 2 the opportunity to secretly choose the code for player 1.  By pressing various button combinations on the second controller, player 2 can select any of the 8 symbols in any combination they desire.</p>
+
+<p>Once the code has been set (either by a human or the computer), the game can begin.  Player 1's controller is used to control the game.  The player can cycle through the symbols by pressing up or down on the D-Pad, and can move through the various 4 positions in the code using the D-Pad's left and right buttons.  Once all four symbols have been seleced, pressing either A or Start on the 1st controller will submit the guess.  The computer will evaluate the guess and if it is wrong, the player will have the chance to try more guesses until there are no more.</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    
+  </body>
+</html>
