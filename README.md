@@ -17,11 +17,9 @@ Playing the Game
 
 The goal of the game is to guess a secret 4 symbol code consisting of any combination of 8 different symbols.  After selecting a code, the game will then indicate to the user how close the guess is to the actual code.  Four lights to the right of the guess will light up and indicate the status of the guess.  The color of a given light gives a clue as to what part of the guess is incorrect.  The meaning of the lights are as follows:
 
-*A red light means that somewhere in the guess, there exists a symbol that is not part of the correct code.
-
-*A yellow light means that somewhere in the guess, there exists a symbol that is part of the correct code, but is in the wrong position.
-
-*A green light means that somewhere in the guess, there exists a symbol that is part of the correct code and it also in the correct position.
+* A red light means that somewhere in the guess, there exists a symbol that is not part of the correct code.
+* A yellow light means that somewhere in the guess, there exists a symbol that is part of the correct code, but is in the wrong position.
+* A green light means that somewhere in the guess, there exists a symbol that is part of the correct code and it also in the correct position.
 
 Note that the order of the lights says nothing about the symbols they refer to.  Just because the first light is green does not necessarily mean that the first symbol is correct.
 
