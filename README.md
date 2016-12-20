@@ -13,9 +13,13 @@ To build the game, build it with Asm6 (Available from http://www.romhacking.net/
 The resultant .nes file can be found in the Game/ROM/ folder and run with any NES emulator.
 
 If you're on a Unix-type system, you can navigate to ./Game/ and run
+
     make game
+
 to make the .nes file or
+
     make prg
+    
 to make just the prg part of the game (in case you want to burn it onto a cart).
 
 The CHR ROM data can be found in ./Game/src/CHR/Code_Master_CHR.CHR
