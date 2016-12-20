@@ -15,4 +15,4 @@
 .include "src/CodeMaster_PRG.asm"
 
 ;. CHR-ROM
-.incbin "src/CHR/CodeMaster_CHR.chr"
+.incbin "src/CHR/CodeMaster_CHR.CHR"
