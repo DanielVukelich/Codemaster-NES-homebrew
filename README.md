@@ -6,11 +6,19 @@ Codemaster is a homebrew game written for the Nintendo Entertainment System in 6
 Building
 --------
 
-To build the game, build it with Asm6 (Available from http://www.romhacking.net/utilities/674/).  Navigate to the /Game/ execute the command 
+To build the game, build it with Asm6 (Available from http://www.romhacking.net/utilities/674/).  Navigate to the ./Game/ folder execute the command
 
     ASM6 CodeMaster_Main.asm ROM/CodeMaster.nes
-    
-The resultant .nes file can be found in the Game/ROM/ folder and run with any NES emulator
+
+The resultant .nes file can be found in the Game/ROM/ folder and run with any NES emulator.
+
+If you're on a Unix-type system, you can navigate to ./Game/ and run
+    make game
+to make the .nes file or
+    make prg
+to make just the prg part of the game (in case you want to burn it onto a cart).
+
+The CHR ROM data can be found in ./Game/src/CHR/Code_Master_CHR.CHR
 
 Playing the Game
 ----------------
@@ -28,7 +36,7 @@ The user has up to 10 chances to guess the correct code.  If the player has not 
 Controls
 --------
 
-On the main game screen, pressing select will switch between 1 Player and 2 Player mode, and pressing start will choose the selected mode.  
+On the main game screen, pressing select will switch between 1 Player and 2 Player mode, and pressing start will choose the selected mode.
 
 If 1 Player mode is selected from the main screen, the player can choose the difficulty of the computer-generated code using the same controls as from the main screen.  The difference between normal and hard difficulty is that on normal difficulty, no symbol can appear in the correct code more than once.  In hard mode, a symbol may appear in the correct code any number of times.
 

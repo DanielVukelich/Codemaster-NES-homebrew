@@ -80,7 +80,7 @@ sprite = $0200
 number_offset = #$1B  ;.  The tile that shows '1' is tile #$1B
 ;\
 
-;\	
+;\
 
 ;/  Initializations
 
@@ -93,7 +93,7 @@ RESET:	;/
 	bpl -
 -	lda $2002
 	bpl -
-	
+
 	;. Now we clear the RAM
 		lda #$00
 		ldx #$00
@@ -108,22 +108,22 @@ RESET:	;/
 		sta $0700 , x
 		inx
 		bne @ramloop
-		
-	;. Reset the stack pointer	
+
+	;. Reset the stack pointer
 	ldx #$FF
 	txs
-	
+
 	jsr vblank_wait
-	
+
 	;. Disable all graphics
 	lda #$00
 	sta $2000
 	sta $2001
-	
+
 	jsr initialize_vars
 	jsr initialize_graphics
 	jsr initialize_sound
-	
+
 	;. Set basic PPU registers.  Load background from $0000,
 	;. sprites from $0000, and the name table from $2400.
 	jsr vblank_wait
@@ -131,10 +131,10 @@ RESET:	;/
         sta $2000
         lda #%00011110 ;. Show the background & the sprites
         sta $2001
-		
+
 	cli
 
-loop: jmp loop 
+loop: jmp loop
 ;. Keep calm and wait for the NMI :)
 ;\
 
@@ -147,7 +147,7 @@ rts
 ;\
 
 initialize_vars:	;/
-	
+
 	lda #$1d
 	sta vEOR
 	lda #<EOR_Vals
@@ -157,21 +157,21 @@ initialize_vars:	;/
 
 	lda #$FF
 	sta vApplicationsLeft
-	
+
 	lda #$0F
 	sta $4015
 	sta vAudioState
-	
+
 rts
 ;\
-	
+
 initialize_graphics:	;/
 	jsr initialize_palette
 	jsr initialize_sprites
 	jsr initialize_nametables
 	rts
 ;\
-	
+
 initialize_palette:	;/
 	lda $2002 ;. Reset the latch
 	lda #$3F
@@ -186,11 +186,11 @@ initialize_palette:	;/
 	bne -
 rts
 ;\
-	
+
 initialize_sprites:	;/
 
 	;. Initialize the "Player Option" sprite
-	
+
 	lda #$9D ;. The 'Y' of the sprite
 	sta sprite
 	lda #$21 ;. The sprite's Tile Number
@@ -201,7 +201,7 @@ initialize_sprites:	;/
 	sta sprite + 3
 rts
 ;\
-	
+
 initialize_nametables:	;/
 
 	lda #<TwoP_Code_Select
@@ -215,7 +215,7 @@ initialize_nametables:	;/
 	ldy #$00
 	ldx #$04
 	jsr load_nametable
-	
+
 	lda #<titlescreen
 	sta nametableaddr_low
 	lda #>titlescreen
@@ -227,13 +227,13 @@ initialize_nametables:	;/
 	ldy #$00
 	ldx #$04
 	jsr load_nametable
-	
+
 rts
 ;\
 
 ;\
 
-;/  Subroutines	
+;/  Subroutines
 
 ;/ TODO List
 
@@ -287,7 +287,7 @@ update_code_sel_sprites: 	;/
 	sta sprite , x
 	ldx #$02
 	jsr play_beep
-	
+
 rts
 ;\
 
@@ -314,12 +314,12 @@ play_beep:	;/
 ;.	The value in the x Register determines the note.
 ;\
 	ldy vAudioState
-	
+
 	lda #$01
 	sta $4000
 	lda #%01100111
 	sta $4000
-	
+
 	cpx #$00
 	beq @los
 	cpx #$01
@@ -331,20 +331,20 @@ play_beep:	;/
 @soso:
 	lda #$a9
 	jmp @play
-	
+
 @good:
 	lda #$89
 @play:
 	sta $4002
 	lda #%01101000
 	STA $4003
-	
+
 	lda #$00
 	sta $4000
 
 	sty vAudioState
 	sty $4000
-	
+
 rts
 ;\
 
@@ -360,7 +360,7 @@ update_arrows:	;/
 @transfer:
 	sta sprite + 3
 	sta sprite + 7
-	
+
 	ldx vArrowSelRow
 	lda arrow_sprite_Y , x
 	sta sprite
@@ -392,14 +392,14 @@ load_nametable:	;/
 	inc nametableaddr_high
 	dex
 	bne @tp
-	
+
 rts
 ;\
 
 switch_tile:	;/
 
 ;/ documentation
-;.This must be called when rendering is disabled, and after the majority of the nametable has 
+;.This must be called when rendering is disabled, and after the majority of the nametable has
 ;.been written
 
 ;.To use this subroutine, first set ppuaddr_low and ppuaddr_high to the beginning nametable
@@ -408,10 +408,10 @@ switch_tile:	;/
 ;.tileswitch_high is #$00 and tileswitch_low is #$55).  Then have newtile be the vale of what
 ;.you want this tile to be.
 ;\
-	
+
 	lda #$00	;. Disable Rendering
 	sta $2001
-	
+
 	lda $2006
 	lda ppuaddr_low
 	clc
@@ -424,7 +424,7 @@ switch_tile:	;/
 	sta $2006
 	lda newtile
 	sta $2007
-	
+
 	lda #%00011110	;. Re-enable Rendering
 	sta $2001
 rts
@@ -433,13 +433,13 @@ rts
 update_code:	;/
 
 	;/ Documentation
-	;. Pass $0 to P1 + 4dateCodeFlag to cycle down through pegs, and $1 to cycle up. 
+	;. Pass $0 to P1 + 4dateCodeFlag to cycle down through pegs, and $1 to cycle up.
 	;. Call this to update the applicable guess peg based off of the values in
 	;. vArrowSel etc.
 	;\
 
 	jsr vblank_wait
-	
+
 	ldx vArrowSelCol
 	ldy vCodePegs , x
 	cpy #$FF
@@ -456,7 +456,7 @@ update_code:	;/
 			cpy #$08
 			beq @firstInc
 				jmp @endcrement
-			
+
 	@firsttime:
 	ldy vUpdateCodeFlag
 	cpy #$00
@@ -469,7 +469,7 @@ update_code:	;/
 	ldy #$00
 @endcrement:
 	sty vCodePegs , x
-	
+
 	lda #$80
 	cpy #$00
 		beq @dnupdtlp
@@ -480,7 +480,7 @@ update_code:	;/
 	bne @updtcdlp
 @dnupdtlp:
 	sta newtile
-	
+
 	ldy vArrowSelRow
 	iny
 	lda #$01
@@ -497,7 +497,7 @@ update_code:	;/
 	sta tileswitch_high
 	dey
 	bne @rowsellp
-	
+
 	cpx #$00
 	beq @sidesel
 @colsellp:
@@ -510,7 +510,7 @@ update_code:	;/
 	sta tileswitch_high
 	dex
 	bne @colsellp
-	
+
 @sidesel:
 	lda vArrowSelSide
 	cmp #$01
@@ -526,7 +526,7 @@ update_code:	;/
 @thefinalcall
 	lda #$00	;. Disable Rendering
 	sta $2001
-	
+
 	lda $2006
 	sta $0500
 	lda tileswitch_high
@@ -543,7 +543,7 @@ update_code:	;/
 	iny
 	sty $2007
 	iny
-	
+
 	clc
 	adc #$20
 	sta tileswitch_low
@@ -559,14 +559,14 @@ update_code:	;/
 	sty $2007
 	iny
 
-	
+
 	lda #$28
 	sta $2006
 	sta ppuaddr_high
 	lda #$00
 	sta $2006
 	sta ppuaddr_low
-	
+
 	lda #%00011110	;. Re-enable Rendering
 	sta $2001
 rts
@@ -600,42 +600,42 @@ set_code:	;/
 
 	ldy vCodesToGen
 	beq @eosc
-	
+
 	jsr prng
-	
+
 	lsr
 	lsr
 	lsr	;. We just want the high 3 bits
 	lsr
 	lsr
-	
+
 	ldx vAllowDupePeg
 	bne @storeIt	;. Break if we don't care about duplicate pegs in the code
-	
+
 	ldx vCodesToGen
 	cpx #$04
 	beq @storeIt
-	
+
 @dupeloop:
 	inx
 	cmp vCodeVals - 1,x
 	beq set_code
 	cpx #$04
 	bne @dupeloop
-	
+
 	@storeIt:
 	sta vCodeVals - 1,y
 	dec vCodesToGen
-	
+
 	jmp set_code
-	
+
 @eosc:
 rts
 ;\
 
 apply_guess:	;/
 
-	
+
 	lda vCodeVals
 	sta vTCodeVals
 	lda vCodeVals + 1
@@ -644,7 +644,7 @@ apply_guess:	;/
 	sta vTCodeVals + 2
 	lda vCodeVals + 3
 	sta vTCodeVals + 3
-	
+
 	LDA #$00
 	STA vGuessResults
 	STA vGuessResults + 1
@@ -672,7 +672,7 @@ apply_guess:	;/
 	bne @gslp
 
 	ldy #$FF
-	
+
 	lda vTCodeVals
 	cmp vCodePegs + 1
 	bne @nsv1
@@ -734,7 +734,7 @@ apply_guess:	;/
 	jmp @sv12
 @continuemuthafucka
 	jmp @nsv12
-	
+
 @sv1:
 	sty vTCodeVals
 	dey
@@ -843,12 +843,12 @@ apply_guess:	;/
 	sta vGuessResults , x
 	inx
 	jmp @nsv12
-	
+
 @nsv12:
 	jsr reset_guess
 	lda #$02
 	sta vGameState
-	
+
 rts
 
 ;\
@@ -885,11 +885,11 @@ load_game_sprites:	;/
 	ldx #$00
 	stx increaseOAMADDR
 	stx increaseX
-	
+
 ;/The one loop to rule the sprites
 
 overloop:
-	
+
 	lda #$1D
 	sta vertval
 	lda #$68
@@ -900,7 +900,7 @@ overloop:
 	adc increaseOAMADDR
 	tay
 	ldx #$05
-	
+
 @tmploop:	;/
 	lda vertval
 	sta sprite,y
@@ -935,7 +935,7 @@ overloop:
 	adc increaseOAMADDR
 	tay
 	ldx #$05
-	
+
 ;\
 @tmploop2:	;/
 	lda vertval
@@ -960,7 +960,7 @@ overloop:
 	tay
 	dex
 	bne @tmploop2
-	
+
 	lda #$25
 	sta vertval
 	lda #$68
@@ -971,7 +971,7 @@ overloop:
 	adc increaseOAMADDR
 	tay
 	ldx #$05
-	
+
 ;\
 @tmploop3:	;/
 	lda vertval
@@ -996,7 +996,7 @@ overloop:
 	tay
 	dex
 	bne @tmploop3
-	
+
 	lda #$25
 	sta vertval
 	lda #$70
@@ -1007,7 +1007,7 @@ overloop:
 	adc increaseOAMADDR
 	tay
 	ldx #$05
-	
+
 ;\
 @tmploop4:	;/
 	lda vertval
@@ -1033,7 +1033,7 @@ overloop:
 	dex
 	bne @tmploop4
 ;\
-	
+
 ldx overloopC
 dex
 beq @eof
@@ -1052,7 +1052,7 @@ rts
 
 reset_guess:	;/
 ;. Set our guess pegs to #$FF so that we know they are blank
-	lda #$FF			
+	lda #$FF
 	sta vCodePegs
 	sta vCodePegs + 1
 	sta vCodePegs + 2
@@ -1063,8 +1063,8 @@ rts
 flash_message:	;/
 	lda #$00	;. Disable Rendering
 	sta $2001
-	
-	ldx #$00	
+
+	ldx #$00
 	lda #$26
 	sta $2006
 	lda #$6A
@@ -1072,7 +1072,7 @@ flash_message:	;/
 	lda vPressStartOff
 	bne @turniton
 
-	
+
 	lda #$00
 	ldy #$01
 @displayloop1:
@@ -1081,7 +1081,7 @@ flash_message:	;/
 	cpx #$0C
 	bne @displayloop1
 	jmp @endflash
-	
+
 @turniton:
 	ldy #$00
 @displayloop2:
@@ -1090,7 +1090,7 @@ flash_message:	;/
 	inx
 	cpx #$0C
 	bne @displayloop2
-	
+
 @endflash:
 	sty vPressStartOff
 	lda #$20
@@ -1114,12 +1114,12 @@ two_player_reset:	;/
 		sta $0200 , x
 		inx
 		bne @twoPRAMloop
-		
+
 	lda #$00	;. Disable Rendering
 	sta $2000
 	sta $2001
 	sta vIsLoseLoaded
-	
+
 	lda #<TwoP_Code_Select
 	sta nametableaddr_low
 	lda #>TwoP_Code_Select
@@ -1132,7 +1132,7 @@ two_player_reset:	;/
 	ldx #$04
 	jsr load_nametable
 	jsr init_code_sel_sprites
-	
+
 	lda #%10010010 ;. Bit 4 being sets the background to bank 2, 0 for bank 1
 	sta $2000
 	lda #%00011110 ;. Show the background & the sprites
@@ -1144,13 +1144,13 @@ rts
 ;\
 
 ;/  Game Engine
-	
+
 NMI:	;/
 
 	jsr update_sprites
 	jsr handle_controllers
 	jsr handle_gamestate
-	
+
 IRQ: rti
 ;\
 
@@ -1160,7 +1160,7 @@ handle_controllers:	;/
 	sta $4016 ;. Save the controller 1 state in the shift register
 	lda #$00
 	sta $4016 ;. Save the controller 2 state in the shift register
-	
+
 	;/ Player One
 	ldy #$00
 @P1Lp
@@ -1178,7 +1178,7 @@ handle_controllers:	;/
 	cpy #$08
 	bne @P1Lp
 	;\
-	
+
 	;/ Player Two
 	ldy #$00
 @P2Lp
@@ -1196,7 +1196,7 @@ handle_controllers:	;/
 	cpy #$08
 	bne @P2Lp
 	;\
-	
+
 rts
 ;\
 
@@ -1207,9 +1207,9 @@ update_sprites:	;/
 	sta $4014
 rts
 ;\
-	
+
 handle_gamestate:	;/
-	
+
 	lda vWait
 	bne @decw
 	lda vGameState
@@ -1276,7 +1276,7 @@ jmp endInput
 ;\
 
 isSelDifficulty:	;/
-	
+
 	ldx P1 + 2
 	beq @readSt
 	ldx vAllowDupePeg
@@ -1285,20 +1285,20 @@ isSelDifficulty:	;/
 		lda #$6D
 		sta sprite
 		jmp @kentuckyDoNothing
-		
+
 @toggleDupeOn:
 	inc vAllowDupePeg
 	lda #$7D
 	sta sprite
 	jmp @kentuckyDoNothing
-	
+
 @readSt:
 	ldx P1 + 3
 	beq @kentuckyDoNothing
 	lda #$01
 	sta vGameState
 	jsr load_gameScreen_1
-	
+
 @kentuckyDoNothing:
 jmp endInput
 ;\
@@ -1308,7 +1308,7 @@ isApplyingGuess:	;/
 	ldy vApplicationsLeft
 	cpy #$FF
 	bne @cont
-	ldy #$03 
+	ldy #$03
 @cont:
 	ldx #$04
 	stx vMultiplyBy
@@ -1334,14 +1334,14 @@ isApplyingGuess:	;/
 	sty vApplicationsLeft
 	cpy #$FF
 	bne @done
-	
+
 	lda vGuessResults + 3;.  Have you won?
 	cmp #$02
 	bne @nowin
 		lda #$03
 		sta vGameState
 		jmp @done		;. You Win!
-		
+
 @nowin:
 	lda #$00
 	sta vArrowSelCol
@@ -1358,20 +1358,20 @@ isApplyingGuess:	;/
 		lda #$04
 		sta vGameState
 		jmp @done
-		
+
 @nolose
 	ldx #$00
-	
+
 @fosho:
 	stx vArrowSelRow
-	
+
 @done:
 	lda #$40
 	sta vWait
-	
+
 	ldx vGuessAppTemp
 	jsr play_beep
-	
+
 jmp endInput
 ;\
 
@@ -1397,18 +1397,18 @@ isLoser:	;/
 				inx
 				bne @ramloop
 	;\
-			
+
 			lda #$01
 			sta P1Flags + 3
-			
+
 			lda #$00	;. Disable Rendering
 			sta $2000
 			sta $2001
-			
+
 			jsr initialize_sound
 			jsr initialize_vars
 			jsr initialize_graphics
-			
+
 			lda #%10000001 ;. Bit 4 being sets the background to bank 2, 0 for bank 1
 			sta $2000
 			lda #%00011110 ;. Show the background & the sprites
@@ -1423,10 +1423,10 @@ isLoser:	;/
 	dey
 	sty vQuietWait
 	jmp @endin
-	
+
 @resetTwoP:
 	jsr two_player_reset
-	
+
 @endin:
 jmp endInput
 ;\
@@ -1439,15 +1439,15 @@ isGame:	;/
 
 	lda P1 + 0
 	beq @readSt
-	
+
 	;. Either A or start will submit the code guess
 		jsr @attemptSubmit
-		
+
 ;\
 @readSt:	;/
 	lda P1 + 3
 	beq @readUp
-	
+
 	@attemptSubmit:
 		lda vCodePegs
 		cmp #$FF
@@ -1484,8 +1484,8 @@ isGame:	;/
 			dex
 			bpl @nvm
 			ldx #$03
-			
-	@nvm:	stx vArrowSelCol		
+
+	@nvm:	stx vArrowSelCol
 ;\
 @readRt:	;/
 	lda P1 + 7
@@ -1495,7 +1495,7 @@ isGame:	;/
 			cpx #$04
 			bne @brb
 				ldx #$00
-				
+
 	@brb:	stx vArrowSelCol
 ;\
 @eol:
@@ -1525,7 +1525,7 @@ isCodeSel: 	;/
 		sty vGameState
 		jsr load_gameScreen_1
 		jmp @endfosho
-	
+
 @checkInput:
 	ldx #$00
 	lda P2Flags + 4
@@ -1540,7 +1540,7 @@ isCodeSel: 	;/
 	lda P2Flags + 6
 	bne @checkAB
 	jmp @checkNew
-	
+
 @checkAB:
 	txa
 	ldx P2 + 1
@@ -1580,14 +1580,14 @@ isCodeSel: 	;/
 	ldx P2Flags
 	beq @endfosho
 	jmp @storeIt
-	
+
 @endfosho:
 jmp endInput
 ;\
 
 isMain:		;/
 	;.This code only runs when we are on the main screen
-		
+
 	ldy vSeed 	;.Since we are on the main screen, we might as well start setting our PRNG's seed
 	iny
 	sty vSeed
@@ -1608,7 +1608,7 @@ isMain:		;/
 		sta vTwoPlayer
 ;\
 ;/	Read Start
-@seldon:	
+@seldon:
 	lda P1 + 3
 	beq @eol
 		jsr exitTitle
@@ -1620,7 +1620,7 @@ isMain:		;/
 @eol:
 jmp endInput
 ;\
-	
+
 exitTitle:	;/
 	lda #$01
 	sta vGameState
@@ -1644,7 +1644,7 @@ exitTitle:	;/
 	@load_2p_intro:
 		jsr load_2p_Intro_Screen
 @exitSub:
-    
+
 	lda $2002 ;. Reset our address latch
 
 rts
@@ -1652,32 +1652,32 @@ rts
 
 load_difficulty_selection_screen:	;/
 
-	
+
 	lda #<select_difficulty
 	sta nametableaddr_low
 	lda #>select_difficulty
 	sta nametableaddr_high
-	
+
 	lda #$28
 	sta ppuaddr_high
 	lda #$00
 	sta ppuaddr_low
 	sta $2001
 	sta vAllowDupePeg
-	
+
 	ldx #$04
 	ldy #$00
 	jsr load_nametable
-	
+
 	jsr vblank_wait
 	lda #%00011110 ;. Reenable rendering
     sta $2001
-	
+
 	lda #$6D
 	sta sprite
 	lda #$60
 	sta sprite + 3
-	
+
 rts
 ;\
 
@@ -1687,22 +1687,22 @@ load_gameScreen_1:	;/
 
 	lda #$00 ;. Disable rendering
 	sta $2001
-	
+
 	sta vArrowSelCol
 	sta vArrowSelRow
 	sta vArrowSelSide
-	
+
 	ldx vTwoPlayer	;.  If we have two players, the code is set, so don't generate one
 	bne @doneprng
 
 	lda #$04
 	sta vCodesToGen	;. Generate 4 pegs
 	jsr set_code	;. Make it so!
-	
+
 @doneprng:
 
 	jsr reset_guess
-	
+
 	lda #<gamescreen_1
 	sta nametableaddr_low
 	lda #>gamescreen_1
@@ -1711,35 +1711,35 @@ load_gameScreen_1:	;/
 	sta ppuaddr_high
 	lda #$00
 	sta ppuaddr_low
-	
+
 	ldy #$00
 	ldx #$04
 	jsr load_nametable
-	
+
 	jsr load_game_sprites
 	jsr vblank_wait
 	lda #%00011110 ;. Reenable rendering
     sta $2001
-	
+
 	lda #%10010010 ;. Bit 4 being 1 sets the background to bank 2, Base nametable at $2800 (Mirrored @ $3200)
     sta $2000
 rts
 ;\
 
 load_2p_Intro_Screen:	;/
-	
+
 	jsr vblank_wait
 	jsr init_code_sel_sprites
-	
+
 	lda #$05
 	sta vGameState
-	
+
 	lda #$00
 	sta vMiscZP
-	
+
 	lda #%10010010 ;. Bit 4 being 1 sets the background to bank 2, Base nametable at $2800 (Mirrored @ $3200)
     sta $2000
-	
+
 rts
 ;\
 
@@ -1749,13 +1749,13 @@ load_lose_screen:	;/
 
 	lda #$00	;. Disable Rendering
 	sta $2001
-	
+
 	ldx #$00	;. Remove sprites
 @ramloop:
 	sta $0200 , x
 	inx
 	bne @ramloop
-	
+
 	lda #<game_over
 	sta nametableaddr_low
 	lda #>game_over
@@ -1766,9 +1766,9 @@ load_lose_screen:	;/
 	sta ppuaddr_high
 	ldy #$00
 	ldx #$04
-	
+
 	jsr load_nametable
-	
+
 	;. Display what the code was
 	ldx #$06
 	stx vMultiplyBy
@@ -1795,7 +1795,7 @@ load_lose_screen:	;/
 	clc
 	adc #$80
 	sta vCodeVals + 3		;. Now we have our tile offsets calculated
-	
+
 	lda #$25
 	sta $2006
 	lda #$87
@@ -1822,7 +1822,7 @@ load_lose_screen:	;/
 	iny
 	cpy #$04
 	bne @codeloop
-	
+
 	lda #$25
 	sta $2006
 	lda #$A7
@@ -1830,21 +1830,21 @@ load_lose_screen:	;/
 	inx
 	cpx #$02
 	bne @outcodeloop
-	
+
 	lda ppuaddr_high
 	sta $2006
 	lda ppuaddr_low
 	sta $2006
-	
+
 	lda #%10010001	;. Base Nametable at $2400, CHR bank 2
 	sta $2000
-	
+
 	;.jsr vblank_wait
-	
+
 	lda #%00011110 ;. Reenable rendering
     sta $2001
 rts
-;\	
+;\
 ;\
 
 ;/  ROM data
@@ -1855,7 +1855,7 @@ EOR_Vals:	;/
 	.db $71, $87, $8d, $a9
 	.db $c3, $cf, $e7, $f5
 	;\
-	
+
 arrow_sprite_X:	;/
 
 	.db $10, $28, $40, $58
@@ -1866,17 +1866,17 @@ arrow_sprite_Y:	;/
 	.db $14, $34, $54, $74, $94
 
 ;\
-	
+
 palette:	;/
 
 	.db $0F, $05, $10, $2D	;. Sprite palette
 	.db $0F, $28, $10, $3D
-	.db $0F, $29, $10, $00 
-	.db $0F, $2D, $3D, $09 
+	.db $0F, $29, $10, $00
+	.db $0F, $2D, $3D, $09
 
 	.db $0F, $05, $23, $09  ;. Background Palette
 	.db $0F, $27, $20, $09
-	.db $0F, $11, $26, $09 
+	.db $0F, $11, $26, $09
 	.db $0F, $2D, $3D, $09
 ;\
 
@@ -1892,35 +1892,34 @@ palette:	;/
 
 ;/ Nametables
 
-titlescreen:  
+titlescreen:
 	.incbin "src/Nametable/Title_Screen.bin"
 
 
 TwoP_Code_Select:
 	.incbin "src/Nametable/2P_Code_Select.bin"
 
-	
 gamescreen_1:
 	.incbin "src/Nametable/Game_Screen_1.bin"
-	
+
 game_over:
 	.incbin "src/Nametable/Game_Over.bin"
 
 select_difficulty:
 	.incbin "src/Nametable/Select_Difficulty.bin"
-	
+
 	;\
-	
+
 ;/ Misc Nametable Data
 
 press_start:
 	.db $30 , $31 , $28 , $32 , $32 , $00 , $00 , $32 , $33 , $24 , $31 , $33	;. Offset is nametable + $26A
 
 ;\
-	
+
 	.pad $FF60
-	.db "Well, you found me.  Congratulations!  Was it worth it?  Because despite your violent" 
+	.db "Well, you found me.  Congratulations!  Was it worth it?  Because despite your violent"
 	.db "behavior, the only thing you've managed to break so far, is my heart!"
 	.dw NMI,RESET,IRQ
-	
+
 ;\
