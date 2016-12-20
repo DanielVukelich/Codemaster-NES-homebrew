@@ -1,7 +1,7 @@
 ;. The iNes header
 .db "NES"
 .db $1a
-.db $02 ;. Number of PRG-ROM banks
+.db $01 ;. Number of PRG-ROM banks
 .db $01 ;. Number of CHR-ROM banks
 
 ;. ROM control bytes: Horizontal mirroring, no SRAM

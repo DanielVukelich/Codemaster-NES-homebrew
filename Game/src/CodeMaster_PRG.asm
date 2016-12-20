@@ -84,7 +84,7 @@ number_offset = #$1B  ;.  The tile that shows '1' is tile #$1B
 
 ;/  Initializations
 
-.base $8000
+.base $C000
 
 RESET:	;/
 	sei
